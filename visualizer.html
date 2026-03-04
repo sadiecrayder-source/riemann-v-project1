@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Riemann-V | Triple-Logic Simulator</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Inter&display=swap" rel="stylesheet">
+    <style>
+        body { background: #05070a; color: white; font-family: 'Inter'; margin: 0; }
+        nav { background: #0d1117; padding: 1rem 5%; display: flex; justify-content: space-between; border-bottom: 1px solid #333; }
+        nav a { color: white; text-decoration: none; margin-left: 20px; opacity: 0.6; }
+        nav a.active { opacity: 1; color: #00f2ff; border-bottom: 2px solid #00f2ff; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; padding: 20px; }
+        .viz-box { background: #0d1117; padding: 20px; border: 1px solid #333; border-radius: 15px; text-align: center; }
+        input { width: 80%; padding: 10px; margin: 10px 0; background: #000; color: white; border: 1px solid #444; }
+        canvas { max-height: 300px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <div style="font-family: 'Orbitron'; color: #00f2ff;">RIEMANN-V</div>
+        <div><a href="index.html">LECTURE</a><a href="visualizer.html" class="active">SIMULATOR</a><a href="archives.html">ARCHIVES</a><a href="audit.html">VERIFY</a></div>
+    </nav>
+    
+    <div style="text-align:center; padding-top:20px;">
+        <input type="text" id="masterFunc" value="x^2" style="width: 300px;">
+        <input type="range" id="masterN" min="2" max="50" value="10">
+        <p>Function: \(f(x)\) | Partitions: <span id="nVal">10</span></p>
+    </div>
+
+    <div class="grid">
+        <div class="viz-box">
+            <h3 style="color:#00f2ff">LEFT SUM</h3>
+            <canvas id="leftChart"></canvas>
+            <div id="leftArea"></div>
+        </div>
+        <div class="viz-box">
+            <h3 style="color:#7000ff">MIDPOINT SUM</h3>
+            <canvas id="midChart"></canvas>
+            <div id="midArea"></div>
+        </div>
+        <div class="viz-box">
+            <h3 style="color:#00f2ff">RIGHT SUM</h3>
+            <canvas id="rightChart"></canvas>
+            <div id="rightArea"></div>
+        </div>
+    </div>
+
+    <script>
+        let charts = {};
+        function createChart(id, color) {
+            const ctx = document.getElementById(id).getContext('2d');
+            return new Chart(ctx, {
+                type: 'bar',
+                data: { labels: [], datasets: [{ type: 'line', borderColor: 'white', data: [] }, { backgroundColor: color, data: [] }] },
+                options: { responsive: true, plugins: { legend: { display: false } } }
+            });
+        }
+        
+        charts.left = createChart('leftChart', 'rgba(0, 242, 255, 0.4)');
+        charts.mid = createChart('midChart', 'rgba(112, 0, 255, 0.4)');
+        charts.right = createChart('rightChart', 'rgba(0, 242, 255, 0.4)');
+
+        function updateAll() {
+            const expr = document.getElementById('masterFunc').value;
+            const n = parseInt(document.getElementById('masterN').value);
+            document.getElementById('nVal').innerText = n;
+            ['left', 'mid', 'right'].forEach(type => {
+                const a=0, b=4, dx=(b-a)/n;
+                let area = 0, labels=[], curve=[], rects=[];
+                for(let x=a; x<=b; x+=0.2) { labels.push(x.toFixed(1)); curve.push(math.evaluate(expr, {x})); }
+                for(let i=0; i<n; i++) {
+                    let xv = (type==='left') ? a+i*dx : (type==='right') ? a+(i+1)*dx : a+(i+0.5)*dx;
+                    let h = math.evaluate(expr, {x:xv});
+                    area += h*dx;
+                    rects.push({x: a+i*dx, y:h});
+                }
+                document.getElementById(type+'Area').innerText = "Area: " + area.toFixed(4);
+                charts[type].data.labels = labels;
+                charts[type].data.datasets[0].data = curve;
+                charts[type].data.datasets[1].data = labels.map(l => {
+                    let x = parseFloat(l);
+                    let bin = Math.floor((x-a)/dx);
+                    return rects[bin] ? rects[bin].y : 0;
+                });
+                charts[type].update();
+            });
+        }
+        document.getElementById('masterN').oninput = updateAll;
+        document.getElementById('masterFunc').oninput = updateAll;
+        updateAll();
+    </script>
+</body>
+</html>
