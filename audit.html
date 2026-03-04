@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Riemann-V | System Audit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --neon: #00f2ff; --bg: #05070a; --accent: #7000ff; }
+        body { background: var(--bg); color: #e6edf3; font-family: 'Inter', sans-serif; margin: 0; text-align: center; }
+        nav { background: #0d1117; padding: 1rem 5%; display: flex; justify-content: space-between; border-bottom: 1px solid #333; }
+        .logo { font-family: 'Orbitron'; color: var(--neon); font-weight: 800; }
+        nav a { color: white; text-decoration: none; margin-left: 20px; opacity: 0.6; }
+        nav a.active { opacity: 1; color: var(--neon); border-bottom: 2px solid var(--neon); }
+        
+        .audit-container { max-width: 800px; margin: 80px auto; padding: 40px; background: rgba(255,255,255,0.02); border: 1px solid #333; border-radius: 30px; position: relative; overflow: hidden; }
+        .status-badge { display: inline-block; padding: 5px 15px; border-radius: 20px; border: 1px solid var(--neon); color: var(--neon); font-size: 0.8rem; margin-bottom: 20px; }
+        
+        input { background: #000; color: var(--neon); border: 1px solid #444; padding: 15px; width: 250px; font-size: 1.5rem; text-align: center; margin: 20px 0; font-family: 'Orbitron'; }
+        button { background: var(--accent); color: white; border: none; padding: 15px 40px; border-radius: 10px; cursor: pointer; font-family: 'Orbitron'; letter-spacing: 1px; transition: 0.3s; }
+        button:hover { background: #8a2be2; transform: scale(1.05); }
+
+        #cert { display: none; margin-top: 40px; padding: 30px; border: 2px gold solid; background: rgba(255, 215, 0, 0.05); border-radius: 15px; animation: popIn 0.5s ease-out; }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .math-display { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 10px; text-align: left; margin: 20px 0; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">RIEMANN-V // CORE</div>
+        <div>
+            <a href="index.html">LECTURE</a>
+            <a href="visualizer.html">SIMULATOR</a>
+            <a href="archives.html">ARCHIVES</a>
+            <a href="audit.html" class="active">VERIFY</a>
+        </div>
+    </nav>
+
+    <div class="audit-container">
+        <div class="status-badge">SYSTEM SECURE</div>
+        <h1>Final Integrity Audit</h1>
+        <p>Before deployment, the user must verify the engine's calculation logic. Solve the following AP-style problem:</p>
+        
+        <div class="math-display">
+            <strong>Problem Statement:</strong><br>
+            Let \(f(x) = 3x + 1\). Calculate the <b>Midpoint Riemann Sum</b> on the interval \([0, 2]\) with exactly \(n = 2\) subintervals.
+        </div>
+
+        <input type="number" id="ans" placeholder="Enter Result">
+        <br>
+        <button onclick="verify()">RUN ANALYSIS</button>
+
+        <div id="cert">
+            <h2 style="color: gold;">🏆 AP Mastery Confirmed</h2>
+            <p>The system has verified your calculation of <b>8</b>. You have successfully demonstrated an understanding of partitioning and sample point evaluation.</p>
+            <p><small>Final Project Status: 100% Complete</small></p>
+        </div>
+        
+        <p id="errorMsg" style="color: #ff4444; margin-top: 20px;"></p>
+    </div>
+
+    <script>
+        function verify() {
+            const val = document.getElementById('ans').value;
+            const cert = document.getElementById('cert');
+            const error = document.getElementById('errorMsg');
+            
+            // Logic: dx = (2-0)/2 = 1. 
+            // Midpoints: x=0.5 and x=1.5.
+            // f(0.5) = 3(0.5)+1 = 2.5
+            // f(1.5) = 3(1.5)+1 = 5.5
+            // Sum = 1 * (2.5 + 5.5) = 8.
+            
+            if(val == 8) {
+                cert.style.display = "block";
+                error.innerText = "";
+                document.querySelector('.audit-container').style.borderColor = "gold";
+            } else {
+                error.innerText = "VERIFICATION FAILED: Logic mismatch. Re-calculate midpoints.";
+                cert.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
