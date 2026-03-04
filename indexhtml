@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Riemann-V | AP Lecture</title>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --neon: #00f2ff; --bg: #05070a; --glass: rgba(255, 255, 255, 0.03); }
+        body { background: var(--bg); color: #e6edf3; font-family: 'Inter', sans-serif; margin: 0; line-height: 1.6; }
+        nav { background: #0d1117; padding: 1rem 5%; display: flex; justify-content: space-between; border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-family: 'Orbitron'; color: var(--neon); }
+        nav a { color: white; text-decoration: none; margin-left: 20px; opacity: 0.6; }
+        nav a.active { opacity: 1; color: var(--neon); border-bottom: 2px solid var(--neon); }
+        .content { padding: 60px 15%; }
+        .section-box { background: var(--glass); border: 1px solid #333; border-radius: 20px; padding: 40px; margin-bottom: 50px; }
+        h2 { color: var(--neon); font-family: 'Orbitron'; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        .trivia-btn { background: #7000ff; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">RIEMANN-V</div>
+        <div><a href="index.html" class="active">LECTURE</a><a href="visualizer.html">SIMULATOR</a><a href="archives.html">ARCHIVES</a><a href="audit.html">VERIFY</a></div>
+    </nav>
+    <div class="content">
+        <h1>Advanced Riemann Analysis</h1>
+        
+        <div class="section-box">
+            <h2>1. The Definition of the Definite Integral</h2>
+            <p>Riemann Sums are the formal construction of the integral. For a continuous function \(f\) on \([a, b]\):</p>
+            <ul>
+                <li><strong>The Partition:</strong> We divide \([a, b]\) into \(n\) subintervals where \(\Delta x = \frac{b-a}{n}\).</li>
+                <li><strong>The Selection:</strong> We choose a sample point \(x_i^*\) in each subinterval.</li>
+                <li><strong>The Sum:</strong> \(S_n = \sum_{i=1}^n f(x_i^*) \Delta x\).</li>
+            </ul>
+        </div>
+
+        <div class="section-box">
+            <h2>2. Overestimates vs. Underestimates</h2>
+            <p>Understanding the relationship between the function's behavior and the sum type is vital for the AP Exam:</p>
+            <ul>
+                <li><strong>Left Riemann Sum (LRAM):</strong> If \(f(x)\) is <i>increasing</i>, LRAM is an <b>underestimate</b>. If <i>decreasing</i>, it is an <b>overestimate</b>.</li>
+                <li><strong>Right Riemann Sum (RRAM):</strong> If \(f(x)\) is <i>increasing</i>, RRAM is an <b>overestimate</b>. If <i>decreasing</i>, it is an <b>underestimate</b>.</li>
+                <li><strong>Midpoint Sum (MRAM):</strong> Accuracy depends on <i>concavity</i>. For a concave up function, Midpoint typically underestimates the actual area.</li>
+            </ul>
+        </div>
+
+        <div class="section-box">
+            <h2>3. Knowledge Check Trivia</h2>
+            <p><b>Q:</b> If \(f(x) = e^x\) on \([0, 5]\), will a Right Riemann Sum be an overestimate or underestimate?</p>
+            <button class="trivia-btn" onclick="alert('Correct! Since e^x is strictly increasing, the Right Sum uses the highest point in each interval, resulting in an Overestimate.')">Check Answer</button>
+        </div>
+        <div style="height: 300px;"></div>
+    </div>
+</body>
+</html>
