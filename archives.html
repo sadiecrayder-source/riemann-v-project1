@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Riemann-V | Archives & Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Inter&display=swap" rel="stylesheet">
+    <style>
+        body { background: #05070a; color: white; font-family: 'Inter'; margin: 0; }
+        nav { background: #0d1117; padding: 1rem 5%; display: flex; justify-content: space-between; border-bottom: 1px solid #333; }
+        .content { padding: 50px 15%; }
+        .game-card { background: rgba(255,255,255,0.05); padding: 40px; border-radius: 20px; border: 2px solid #333; text-align: center; }
+        .correct { border-color: #00ff88 !important; box-shadow: 0 0 20px #00ff88; transition: 0.5s; }
+        .wrong { border-color: #ff4444 !important; box-shadow: 0 0 20px #ff4444; transition: 0.5s; animation: shake 0.3s; }
+        @keyframes shake { 0% {transform: x(0)} 25% {transform: translateX(10px)} 50% {transform: translateX(-10px)} 100% {transform: translateX(0)} }
+        button { background: transparent; color: white; border: 1px solid #00f2ff; padding: 10px 20px; cursor: pointer; margin: 10px; border-radius: 5px; }
+        button:hover { background: #00f2ff; color: black; }
+    </style>
+</head>
+<body>
+    <nav>
+        <div style="font-family: 'Orbitron'; color: #00f2ff;">RIEMANN-V</div>
+        <div><a href="index.html">LECTURE</a><a href="visualizer.html">SIMULATOR</a><a href="archives.html" class="active">ARCHIVES</a><a href="audit.html">VERIFY</a></div>
+    </nav>
+    <div class="content">
+        <h1>Historical Repository</h1>
+        <p><b>Did you know?</b> Leibniz used a vertical bar notation for integration before the stylized 'S' was finalized. He and Newton fought for decades over who actually "owned" the concept of the derivative.</p>
+        
+        <div class="game-card" id="gameBox">
+            <h3>Guess Who Said It:</h3>
+            <p id="quoteText">"Nature's great book is written in mathematical symbols."</p>
+            <button onclick="guess('wrong')">Newton</button>
+            <button onclick="guess('correct')">Galileo</button>
+            <button onclick="guess('wrong')">Riemann</button>
+            <p id="gameFeedback"></p>
+        </div>
+        
+        <h2 style="margin-top:50px;">Lore Expansion</h2>
+        <ul>
+            <li><b>Archimedes:</b> Used polygons to find the area of a circle (Method of Exhaustion).</li>
+            <li><b>Cauchy:</b> First to define the integral using limits properly.</li>
+            <li><b>Leibniz:</b> Invented the \(dx\) notation.</li>
+        </ul>
+        <div style="height: 500px;"></div>
+    </div>
+
+    <script>
+        function guess(status) {
+            const box = document.getElementById('gameBox');
+            const feedback = document.getElementById('gameFeedback');
+            box.classList.remove('correct', 'wrong');
+            
+            if(status === 'correct') {
+                box.classList.add('correct');
+                feedback.innerText = "EXCELLENT. Galileo recognized the geometric language of the universe.";
+            } else {
+                box.classList.add('wrong');
+                feedback.innerText = "INCORRECT. Re-analyze your historical data.";
+            }
+        }
+    </script>
+</body>
+</html>
